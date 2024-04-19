@@ -108,4 +108,5 @@ permalink: /test/
 {% endif %}
 {% endfor %}
 
-<script src="filter.js"></script>
+<script src="<script src="https://raw.githubusercontent.com/Cipher-god/webdesign-test-template/gh-pages/_pages/filter.js"></script>
+"></script>
