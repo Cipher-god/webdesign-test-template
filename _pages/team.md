@@ -4,7 +4,7 @@ layout: gridlay
 sitemap: false
 permalink: /test/
 ---
-
+{% raw %}
 <!-- Add a dropdown menu for filtering -->
 <label for="positionFilter">Filter by Position:</label>
 <select id="positionFilter">
