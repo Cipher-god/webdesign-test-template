@@ -320,3 +320,22 @@
   alumni: 0
   alumni_current: ''
   year: '2023'
+- timestamp: 4/19/2024 11:04:40
+  name: Dev Nayak
+  position: Undergraduate student
+  email: bgfbf@examle.com
+  bio1: 'Trekker Safety Device '
+  bio2: >-
+    Integration of device with Lora and GPS, incorporated in trekking pole,
+    trekker when in trouble can send distsess signal
+  bio3: Reduce rescue search time by the authorities
+  bio4: sfsre
+  image: >-
+    https://drive.google.com/thumbnail?id=1exiOviyOY1yccVTsSrNvQJWs5kN2RVuS&sz=w300
+  affiliation: Industrial design (Savannah College of Art and Design, GA)
+  display: 0
+  undefined: ''
+  acknowledgement: I understand and agree
+  alumni: 0
+  alumni_current: ''
+  year: '2023'
