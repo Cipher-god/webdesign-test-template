@@ -84,4 +84,7 @@ permalink: /test/
   document.querySelectorAll('.positionFilter').forEach(function (checkbox) {
     checkbox.addEventListener('change', filterMembers);
   });
+
+  // Initial filtering
+  filterMembers();
 </script>
