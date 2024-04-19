@@ -98,3 +98,21 @@ permalink: /test/
 
 {% endif %}
 {% endfor %}
+<script>
+  document.getElementById('positionFilter').addEventListener('change', function() {
+    var selectedPosition = this.value;
+    var members = document.getElementsByClassName('member');
+
+    // Loop through all members and show/hide based on selected position
+    for (var i = 0; i < members.length; i++) {
+      var position = members[i].getAttribute('data-position');
+      var alumni = members[i].getAttribute('data-alumni');
+
+      if ((selectedPosition === 'all' || position === selectedPosition) && alumni === '0') {
+        members[i].style.display = 'block'; // Show member
+      } else {
+        members[i].style.display = 'none'; // Hide member
+      }
+    }
+  });
+</script>
