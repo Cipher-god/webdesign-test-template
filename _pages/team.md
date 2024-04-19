@@ -136,8 +136,6 @@ permalink: /test/
     }
   });
 </script>
-{% endraw %}
-
 
 ## Alumni
 
