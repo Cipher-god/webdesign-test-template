@@ -5,14 +5,19 @@ sitemap: false
 permalink: /test/
 ---
 
-### Filter by Position
+<!-- Filter Dropdown -->
+<label for="positionFilter">Filter by Position:</label>
+<select id="positionFilter">
+  <option value="all">All Positions</option>
+  <option value="Assistant Professor">Assistant Professor</option>
+  <option value="Undergraduate student">Undergraduate student</option>
+  <option value="MS(R) student">MS(R) student</option>
+  <option value="PhD student">PhD student</option>
+  <option value="Research Assistant">Research Assistant</option>
+  <option value="Intern">Intern</option>
+</select>
 
-- <input type="checkbox" id="PhD" name="positions" value="PhD"> PhD
-- <input type="checkbox" id="UG" name="positions" value="UG"> Undergraduate
-- <input type="checkbox" id="MSR" name="positions" value="MSR"> MS(R)
-- <input type="checkbox" id="RA" name="positions" value="RA"> Research Assistant
-- <input type="checkbox" id="Int" name="positions" value="Int"> Intern
-- <input type="checkbox" id="Other" name="positions" value="Other"> Other
+# Group Members  
 
 {% assign ap_members = '' | split: '' %}
 {% assign us_members = '' | split: '' %}
@@ -21,98 +26,102 @@ permalink: /test/
 {% assign ra_members = '' | split: '' %}
 {% assign int_members = '' | split: '' %}
 {% assign oth_members = '' | split: '' %}
+
 {% assign sorted_members = site.data.team | sort: "year" %}
+
 {% for member in sorted_members %}
- {% if member.position == 'Assistant Professor' %}
-    {% assign ap_members = ap_members | push: member %}
- {% elsif member.position == 'Undergraduate student' %}
-    {% assign us_members = us_members | push: member %}
- {% elsif member.position == 'MS(R) student' %}
-    {% assign msr_members = msr_members | push: member %}
- {% elsif member.position == 'PhD student' %}
-    {% assign phd_members = phd_members | push: member %}
- {% elsif member.position == 'Research Assistant' %}
-    {% assign ra_members = ra_members | push: member %}
- {% elsif member.position == 'Intern' %}
-    {% assign int_members = int_members | push: member %}
- {% else %}
-    {% assign oth_members = oth_members | push: member %}
- {% endif %}
+  {% case member.position %}
+    {% when 'Assistant Professor' %}
+      {% assign ap_members = ap_members | push: member %}
+    {% when 'Undergraduate student' %}
+      {% assign us_members = us_members | push: member %}
+    {% when 'MS(R) student' %}
+      {% assign msr_members = msr_members | push: member %}
+    {% when 'PhD student' %}
+      {% assign phd_members = phd_members | push: member %}
+    {% when 'Research Assistant' %}
+      {% assign ra_members = ra_members | push: member %}
+    {% when 'Intern' %}
+      {% assign int_members = int_members | push: member %}
+    {% else %}
+      {% assign oth_members = oth_members | push: member %}
+  {% endcase %}
 {% endfor %}
-{% assign sorted_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: oth_members %}
+
+{% assign all_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: oth_members %}
+
 {% assign number_printed = 0 %}
-{% for member in sorted_members %}
- {% if member.display == 1 and member.alumni == 0 %}
+{% for member in all_members %}
+  {% assign position = member.position %}
+  {% assign alumni = member.alumni %}
+  {% if member.display == 1 %}
     {% assign even_odd = number_printed | modulo: 2 %}
     {% if even_odd == 0 %}
-        <div class="row">
+      <div class="row">
     {% endif %}
-    <div class="col-sm-6 clearfix member" data-position="{{ member.position }}">
-        <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
-        <h4>{{ member.name }}</h4>
-        <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
-        <ul style="overflow: hidden">
-            {% if member.bio1 != "" %}
-                <li> {{ member.bio1 }} </li>
-            {% endif %}
-            {% if member.bio2 != "" %}
-                <li> {{ member.bio2 }} </li>
-            {% endif %}
-            {% if member.bio3 != "" %}
-                <li> {{ member.bio3 }} </li>
-            {% endif %}
-            {% if member.bio4 != "" %}
-                <li> {{ member.bio4 }} </li>
-            {% endif %}
-        </ul>
+    <div class="col-sm-6 clearfix member" data-position="{{ position }}" data-alumni="{{ alumni }}">
+      <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
+      <h4>{{ member.name }}</h4>
+      <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
+      <ul style="overflow: hidden">
+        {% if member.bio1 != "" %}
+          <li>{{ member.bio1 }}</li>
+        {% endif %}
+        {% if member.bio2 != "" %}
+          <li>{{ member.bio2 }}</li>
+        {% endif %}
+        {% if member.bio3 != "" %}
+          <li>{{ member.bio3 }}</li>
+        {% endif %}
+        {% if member.bio4 != "" %}
+          <li>{{ member.bio4 }}</li>
+        {% endif %}
+      </ul>
     </div>
     {% assign number_printed = number_printed | plus: 1 %}
     {% if even_odd == 1 %}
-        </div>
+      </div>
     {% endif %}
- {% endif %}
+  {% endif %}
 {% endfor %}
+
 {% assign even_odd = number_printed | modulo: 2 %}
 {% if even_odd == 1 %}
-    </div>
+  </div>
 {% endif %}
 
-### Alumni
+## Alumni
 
-{% for member in sorted_members %}
- {% if member.display == 1 and member.alumni == 1 %}
-    <div class="col-sm-12 clearfix member" data-position="{{ member.position }}">
-        <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
-        <h4>{{ member.name }}</h4>
-        <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
-        <h5>{{ member.alumni_current }}</h5>
+{% for member in all_members %}
+  {% if member.display == 1 and member.alumni == 1 %}
+    <div class="col-sm-12 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+      <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
+      <h4>{{ member.name }}</h4>
+      <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
+      <h5>{{ member.alumni_current }}</h5>
     </div>
- {% endif %}
+  {% endif %}
 {% endfor %}
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
- // Function to filter members based on selected positions
- function filterMembers() {
-    const positions = document.querySelectorAll('input[name="positions"]:checked');
-    const selectedPositions = Array.from(positions).map(pos => pos.value);
+document.addEventListener('DOMContentLoaded', function () {
+  var positionFilter = document.getElementById('positionFilter');
+  var members = document.getElementsByClassName('member');
 
-    // Hide all members initially
-    document.querySelectorAll('.member').forEach(member => member.style.display = 'none');
+  positionFilter.addEventListener('change', function () {
+    var selectedPosition = positionFilter.value;
 
-    // Show members that match the selected positions
-    // Show members that match the selected positions
-selectedPositions.forEach(pos => {
-    document.querySelectorAll('.member[data-position="' + pos + '"]').forEach(member => member.style.display = 'block');
-});
- }
+    for (var i = 0; i < members.length; i++) {
+      var member = members[i];
+      var position = member.getAttribute('data-position');
+      var alumni = member.getAttribute('data-alumni');
 
-// Listen for changes to the checkboxes
- document.querySelectorAll('input[name="positions"]').forEach(checkbox => {
-    checkbox.addEventListener('change', filterMembers);
- });
-
- // Initial filter on page load
- filterMembers();
+      if (selectedPosition === 'all' || position === selectedPosition) {
+        member.style.display = 'block';
+      } else {
+        member.style.display = 'none';
+      }
+    }
+  });
 });
 </script>
