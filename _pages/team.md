@@ -43,6 +43,8 @@ permalink: /test/
   {% endfor %}
 </div>
 
+<script src="filter.js"></script>
+
 <script>
   document.getElementById('positionFilter').addEventListener('change', function() {
     var selectedPosition = this.value;
