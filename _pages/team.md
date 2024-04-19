@@ -5,61 +5,53 @@ sitemap: false
 permalink: /test/
 ---
 
-<!-- Add a dropdown menu for filtering -->
-<label for="positionFilter">Filter by Position:</label>
-<select id="positionFilter">
-  <option value="all">All Positions</option>
-  <option value="Assistant Professor">Assistant Professor</option>
-  <option value="Undergraduate student">Undergraduate student</option>
-  <option value="MS(R) student">MS(R) student</option>
-  <option value="PhD student">PhD student</option>
-  <option value="Research Assistant">Research Assistant</option>
-  <option value="Intern">Intern</option>
-</select>
+## Group Members
 
-# Group Members  
+<div class="filter-container">
+  <select id="position-filter">
+    <option value="all">All Positions</option>
+    <option value="professor">Professors</option>
+    <option value="phd">PhD Students</option>
+    <option value="msr">MS(R) Students</option>
+    <option value="us">Undergraduate Students</option>
+    <option value="ra">Research Assistants</option>
+    <option value="intern">Interns</option>
+    <option value="other">Other</option>
+  </select>
+</div>
 
 {% assign sorted_members = site.data.team | sort: "year" %}
 
-<div id="memberContainer">
-  {% for member in sorted_members %}
-    <div class="member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-      {% if member.display == 1 %}
-        <div class="row">
-          <div class="col-sm-6 clearfix">
-            <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
-            <h4>{{ member.name }}</h4>
-            <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
-            <ul style="overflow: hidden">
-              {% if member.bio1 != "" %}<li>{{ member.bio1 }}</li>{% endif %}
-              {% if member.bio2 != "" %}<li>{{ member.bio2 }}</li>{% endif %}
-              {% if member.bio3 != "" %}<li>{{ member.bio3 }}</li>{% endif %}
-              {% if member.bio4 != "" %}<li>{{ member.bio4 }}</li>{% endif %}
-            </ul>
-          </div>
-        </div>
-      {% endif %}
-    </div>
-  {% endfor %}
-</div>
-
-<script src="filter.js"></script>
-
 <script>
-  document.getElementById('positionFilter').addEventListener('change', function() {
-    var selectedPosition = this.value;
-    var members = document.getElementsByClassName('member');
+  document.getElementById('position-filter').addEventListener('change', function() {
+    const selectedPosition = this.value;
+    const memberList = document.getElementById('member-list');
+    memberList.innerHTML = ''; // Clear existing members
 
-    // Loop through all members and show/hide based on selected position
-    for (var i = 0; i < members.length; i++) {
-      var position = members[i].getAttribute('data-position');
-      var alumni = members[i].getAttribute('data-alumni');
-
-      if ((selectedPosition === 'all' || position === selectedPosition) && alumni === '0') {
-        members[i].style.display = 'block'; // Show member
-      } else {
-        members[i].style.display = 'none'; // Hide member
-      }
-    }
+    {% for member in sorted_members %}
+      {% if member.display == 1 and member.alumni == 0 %}
+        {% assign visible = false %}
+        {% if selectedPosition == "all" or selectedPosition == member.position.toLowerCase() %}
+          {% assign visible = true %}
+        {% endif %}
+        
+        {% if visible %}
+          <div class="row">
+            </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
   });
 </script>
+
+<div id="member-list">
+  </div>
+
+## Alumni
+
+{% for member in sorted_members %}
+  {% if member.display == 1 and member.alumni == 1 %}
+    <div class="col-sm-12 clearfix">
+      </div>
+  {% endif %}
+{% endfor %}
