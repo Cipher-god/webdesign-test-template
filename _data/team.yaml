@@ -333,9 +333,28 @@
   image: >-
     https://drive.google.com/thumbnail?id=1exiOviyOY1yccVTsSrNvQJWs5kN2RVuS&sz=w300
   affiliation: Industrial design (Savannah College of Art and Design, GA)
-  display: 0
+  display: 1
   undefined: ''
   acknowledgement: I understand and agree
-  alumni: 0
-  alumni_current: ''
+  alumni: 1
+  alumni_current: UG research
   year: '2023'
+- timestamp: 4/19/2024 12:27:50
+  name: John Nayak
+  position: Undergraduate student
+  email: ackjdf@examle.com
+  bio1: 'Sensor Safety Device '
+  bio2: >-
+    Integration of device with Lora and GPS, incorporated in trekking pole,
+    trekker when in trouble can send distsess signal
+  bio3: Reduce rescue search time by the authorities
+  bio4: sfsre
+  image: >-
+    https://drive.google.com/thumbnail?id=1exiOviyOY1yccVTsSrNvQJWs5kN2RVuS&sz=w300
+  affiliation: Industrial design (Savannah College of Art and Design, GA)
+  display: 1
+  undefined: ''
+  acknowledgement: I understand and agree
+  alumni: 1
+  alumni_current: UG research
+  year: '2024'
