@@ -5,17 +5,16 @@ sitemap: false
 permalink: /test/
 ---
 
-<!-- Filter Dropdown -->
-<label for="positionFilter">Filter by Position:</label>
-<select id="positionFilter">
-  <option value="all">All Positions</option>
-  <option value="Assistant Professor">Assistant Professor</option>
-  <option value="Undergraduate student">Undergraduate student</option>
-  <option value="MS(R) student">MS(R) student</option>
-  <option value="PhD student">PhD student</option>
-  <option value="Research Assistant">Research Assistant</option>
-  <option value="Intern">Intern</option>
-</select>
+<!-- Add checkboxes for filtering -->
+<fieldset>
+  <legend>Filter by Position:</legend>
+  <label><input type="checkbox" class="positionFilter" value="Assistant Professor"> Assistant Professor</label><br>
+  <label><input type="checkbox" class="positionFilter" value="Undergraduate student"> Undergraduate student</label><br>
+  <label><input type="checkbox" class="positionFilter" value="MS(R) student"> MS(R) student</label><br>
+  <label><input type="checkbox" class="positionFilter" value="PhD student"> PhD student</label><br>
+  <label><input type="checkbox" class="positionFilter" value="Research Assistant"> Research Assistant</label><br>
+  <label><input type="checkbox" class="positionFilter" value="Intern"> Intern</label><br>
+</fieldset>
 
 # Group Members  
 
@@ -30,98 +29,93 @@ permalink: /test/
 {% assign sorted_members = site.data.team | sort: "year" %}
 
 {% for member in sorted_members %}
-  {% case member.position %}
-    {% when 'Assistant Professor' %}
-      {% assign ap_members = ap_members | push: member %}
-    {% when 'Undergraduate student' %}
-      {% assign us_members = us_members | push: member %}
-    {% when 'MS(R) student' %}
-      {% assign msr_members = msr_members | push: member %}
-    {% when 'PhD student' %}
-      {% assign phd_members = phd_members | push: member %}
-    {% when 'Research Assistant' %}
-      {% assign ra_members = ra_members | push: member %}
-    {% when 'Intern' %}
-      {% assign int_members = int_members | push: member %}
-    {% else %}
-      {% assign oth_members = oth_members | push: member %}
-  {% endcase %}
-{% endfor %}
-
-{% assign all_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: oth_members %}
-
-{% assign number_printed = 0 %}
-{% for member in all_members %}
-  {% assign position = member.position %}
-  {% assign alumni = member.alumni %}
-  {% if member.display == 1 %}
-    {% assign even_odd = number_printed | modulo: 2 %}
-    {% if even_odd == 0 %}
-      <div class="row">
-    {% endif %}
-    <div class="col-sm-6 clearfix member" data-position="{{ position }}" data-alumni="{{ alumni }}">
-      <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
-      <h4>{{ member.name }}</h4>
-      <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
-      <ul style="overflow: hidden">
-        {% if member.bio1 != "" %}
-          <li>{{ member.bio1 }}</li>
-        {% endif %}
-        {% if member.bio2 != "" %}
-          <li>{{ member.bio2 }}</li>
-        {% endif %}
-        {% if member.bio3 != "" %}
-          <li>{{ member.bio3 }}</li>
-        {% endif %}
-        {% if member.bio4 != "" %}
-          <li>{{ member.bio4 }}</li>
-        {% endif %}
-      </ul>
-    </div>
-    {% assign number_printed = number_printed | plus: 1 %}
-    {% if even_odd == 1 %}
-      </div>
-    {% endif %}
+  {% assign member_position = member.position %}
+  {% assign member_alumni = member.alumni %}
+  {% if member_position == 'Assistant Professor' %}
+    {% assign ap_members = ap_members | push: member %}
+  {% elsif member_position == 'Undergraduate student' %}
+    {% assign us_members = us_members | push: member %}
+  {% elsif member_position == 'MS(R) student' %}
+    {% assign msr_members = msr_members | push: member %}
+  {% elsif member_position == 'PhD student' %}
+    {% assign phd_members = phd_members | push: member %}
+  {% elsif member_position == 'Research Assistant' %}
+    {% assign ra_members = ra_members | push: member %}
+  {% elsif member_position == 'Intern' %}
+    {% assign int_members = int_members | push: member %}
+  {% else %}
+    {% assign oth_members = oth_members | push: member %}
   {% endif %}
 {% endfor %}
 
-{% assign even_odd = number_printed | modulo: 2 %}
-{% if even_odd == 1 %}
-  </div>
-{% endif %}
-
-## Alumni
+{% assign all_members = ap_members | concat: us_members | concat: msr_members | concat: phd_members | concat: ra_members | concat: int_members | concat: oth_members %}
 
 {% for member in all_members %}
-  {% if member.display == 1 and member.alumni == 1 %}
-    <div class="col-sm-12 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-      <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
+  {% assign member_position = member.position %}
+  {% assign member_alumni = member.alumni %}
+  {% assign display_member = false %}
+  {% if member_alumni == 0 %}
+    {% if member_position == 'Assistant Professor' and ap_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'Undergraduate student' and us_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'MS(R) student' and msr_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'PhD student' and phd_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'Research Assistant' and ra_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'Intern' and int_members.size > 0 %}
+      {% assign display_member = true %}
+    {% endif %}
+  {% else %}
+    {% if member_position == 'Assistant Professor' and ap_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'Undergraduate student' and us_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'MS(R) student' and msr_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'PhD student' and phd_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'Research Assistant' and ra_members.size > 0 %}
+      {% assign display_member = true %}
+    {% elsif member_position == 'Intern' and int_members.size > 0 %}
+      {% assign display_member = true %}
+    {% endif %}
+  {% endif %}
+  {% if display_member %}
+    <div class="member">
       <h4>{{ member.name }}</h4>
-      <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
-      <h5>{{ member.alumni_current }}</h5>
+      <p>{{ member.position }}</p>
+      <p>{{ member.affiliation }}</p>
+      <p>Email: {{ member.email }}</p>
+      <p>Bio: {{ member.bio }}</p>
     </div>
   {% endif %}
 {% endfor %}
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  var positionFilter = document.getElementById('positionFilter');
-  var members = document.getElementsByClassName('member');
+  // Function to handle filter change
+  function filterMembers() {
+    var selectedPositions = Array.from(document.querySelectorAll('.positionFilter:checked')).map(function (checkbox) {
+      return checkbox.value;
+    });
 
-  positionFilter.addEventListener('change', function () {
-    var selectedPosition = positionFilter.value;
+    var members = document.querySelectorAll('.member');
 
-    for (var i = 0; i < members.length; i++) {
-      var member = members[i];
-      var position = member.getAttribute('data-position');
-      var alumni = member.getAttribute('data-alumni');
+    members.forEach(function (member) {
+      var position = member.querySelector('p:nth-of-type(2)').textContent;
 
-      if (selectedPosition === 'all' || position === selectedPosition) {
+      if (selectedPositions.includes(position) || selectedPositions.length === 0) {
         member.style.display = 'block';
       } else {
         member.style.display = 'none';
       }
-    }
+    });
+  }
+
+  // Event listener for filter change
+  document.querySelectorAll('.positionFilter').forEach(function (checkbox) {
+    checkbox.addEventListener('change', filterMembers);
   });
-});
 </script>
