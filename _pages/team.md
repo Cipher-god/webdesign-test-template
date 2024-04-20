@@ -5,16 +5,6 @@ sitemap: false
 permalink: /test/
 ---
 
-<div>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="MS(R) student"> MS(R) Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="PhD student"> PhD Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Research Assistant"> Research Assistant</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Intern"> Intern</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="MSc student"> MSc Student</label>
-</div>
-
 <style>
   .row {
     display: flex;
@@ -24,14 +14,27 @@ permalink: /test/
   }
 
   .member {
-    display: none; /* Initially hide all members */
+    display: flex; /* Initially display all members */
     width: calc(50% - 20px); /* Adjust member width */
+    flex-direction: column; /* Align content vertically */
   }
 
-  .member.show {
-    display: flex; /* Show selected members */
+  .member h4,
+  .member i,
+  .member ul {
+    margin: 10px 0;
   }
 </style>
+
+<div>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="MS(R) student"> MS(R) Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="PhD student"> PhD Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Research Assistant"> Research Assistant</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Intern"> Intern</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="MSc student"> MSc Student</label>
+</div>
 
 # Group Members  
 
@@ -73,8 +76,8 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
 
-<div class="member show" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-  <img src="{{ member.image }}" class="img-responsive" width="100%" />
+<div class="member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+  <img src="{{ member.image }}" class="img-responsive" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
   <ul style="overflow: hidden">
@@ -104,7 +107,7 @@ permalink: /test/
 {% if member.display == 1 and member.alumni == 1 %}
 
 <div class="member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-  <img src="{{ member.image }}" class="img-thumbnail" width="100%" />
+  <img src="{{ member.image }}" class="img-thumbnail" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
   <h5>{{ member.alumni_current }}</h5>
@@ -114,22 +117,20 @@ permalink: /test/
 {% endfor %}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const checkboxes = document.querySelectorAll('.filterCheckbox');
     const members = document.querySelectorAll('.member');
 
     checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', function() {
-        // Initialize array to store selected positions
+      checkbox.addEventListener('change', function () {
         const selectedPositions = [];
-        
-        // Loop through checkboxes to find selected positions
+
         checkboxes.forEach(checkbox => {
           if (checkbox.checked) {
             selectedPositions.push(checkbox.dataset.position);
           }
         });
-        
+
         // If no checkboxes are selected, show all members
         if (selectedPositions.length === 0) {
           members.forEach(member => {
