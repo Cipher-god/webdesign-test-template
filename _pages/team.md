@@ -1,6 +1,8 @@
 ---
-title: "Team Members"
-layout: default
+title: "test page"
+layout: gridlay
+sitemap: false
+permalink: /test/
 ---
 
 <div>
