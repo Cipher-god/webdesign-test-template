@@ -19,7 +19,6 @@ permalink: /test/
 <input type="checkbox" id="intCheckbox" class="filterCheckbox" data-position="Intern">
 <label for="intCheckbox">Intern</label>
 
-<!-- Group Members -->
 # Group Members  
 
 {% assign ap_members = '' | split: '' %}
@@ -59,24 +58,24 @@ permalink: /test/
 {% if even_odd == 0 %}
 <div class="row">
 {% endif %}
-<div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-    <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
-    <h4>{{ member.name }}</h4>
-    <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
-    <ul style="overflow: hidden">
-        {% if member.bio1 != "" %}
-            <li>{{ member.bio1 }}</li>
-        {% endif %}
-        {% if member.bio2 != "" %}
-            <li>{{ member.bio2 }}</li>
-        {% endif %}
-        {% if member.bio3 != "" %}
-            <li>{{ member.bio3 }}</li>
-        {% endif %}
-        {% if member.bio4 != "" %}
-            <li>{{ member.bio4 }}</li>
-        {% endif %}
-    </ul>
+<div class="col-sm-6 clearfix">
+  <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
+  <h4>{{ member.name }}</h4>
+  <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
+  <ul style="overflow: hidden">
+    {% if member.bio1 != "" %}
+    <li> {{ member.bio1 }} </li>
+    {% endif %}
+    {% if member.bio2 != "" %}
+    <li> {{ member.bio2 }} </li>
+    {% endif %}
+    {% if member.bio3 != "" %}
+    <li> {{ member.bio3 }} </li>
+    {% endif %}
+    {% if member.bio4 != "" %}
+    <li> {{ member.bio4 }} </li>
+    {% endif %}
+  </ul>
 </div>
 {% assign number_printed = number_printed | plus: 1 %}
 {% if even_odd == 1 %}
@@ -94,10 +93,10 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 1 %}
 <div class="col-sm-12 clearfix">
-    <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
-    <h4>{{ member.name }}</h4>
-    <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
-    <h5>{{ member.alumni_current }}</h5>
+  <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
+  <h4>{{ member.name }}</h4>
+  <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
+  <h5>{{ member.alumni_current }}</h5>
 </div>
 {% endif %}
 {% endfor %}
