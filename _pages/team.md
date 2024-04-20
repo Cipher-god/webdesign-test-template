@@ -16,7 +16,7 @@ permalink: /test/
   <label><input type="checkbox" class="positionFilter" value="Intern"> Intern</label><br>
 </fieldset>
 
-# Group Members
+# Group Members  
 
 <div id="membersContainer">
   {% assign ap_members = '' | split: '' %}
@@ -50,13 +50,27 @@ permalink: /test/
   {% assign all_members = ap_members | concat: us_members | concat: msr_members | concat: phd_members | concat: ra_members | concat: int_members | concat: oth_members %}
 
   {% for member in all_members %}
-    <div class="member">
+    <div class="member" data-position="{{ member.position }}">
       <h4>{{ member.name }}</h4>
       <p>{{ member.position }}</p>
       <p>{{ member.affiliation }}</p>
       <p>Email: {{ member.email }}</p>
       <p>Bio: {{ member.bio }}</p>
     </div>
+  {% endfor %}
+
+  ## Alumni
+
+  {% for member in sorted_members %}
+    {% if member.display == 1 and member.alumni == 1 %}
+      <div class="alumni" data-position="{{ member.position }}">
+        <h4>{{ member.name }}</h4>
+        <p>{{ member.position }}</p>
+        <p>{{ member.affiliation }}</p>
+        <p>Email: {{ member.email }}</p>
+        <p>{{ member.alumni_current }}</p>
+      </div>
+    {% endif %}
   {% endfor %}
 </div>
 
@@ -68,9 +82,20 @@ permalink: /test/
     });
 
     var members = document.querySelectorAll('.member');
+    var alumni = document.querySelectorAll('.alumni');
 
     members.forEach(function (member) {
-      var position = member.querySelector('p:nth-of-type(2)').textContent;
+      var position = member.getAttribute('data-position');
+
+      if (selectedPositions.includes(position) || selectedPositions.length === 0) {
+        member.style.display = 'block';
+      } else {
+        member.style.display = 'none';
+      }
+    });
+
+    alumni.forEach(function (member) {
+      var position = member.getAttribute('data-position');
 
       if (selectedPositions.includes(position) || selectedPositions.length === 0) {
         member.style.display = 'block';
