@@ -121,6 +121,8 @@ permalink: /test/
         members.forEach(member => {
           if (member.dataset.position === position) {
             member.style.display = 'block';
+          } else {
+            member.style.display = 'none';
           }
         });
       } else {
