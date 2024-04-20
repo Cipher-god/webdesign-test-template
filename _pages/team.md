@@ -51,13 +51,9 @@ permalink: /test/
 {% assign sorted_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: msc_members | concat: oth_members %}
 
 {% assign number_printed = 0 %}
-{% assign members_per_row = 2 %}
-{% assign current_row_members = 0 %}
-{% assign rows_count = 0 %}
 <div class="row">
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
-{% assign current_row_members = current_row_members | plus: 1 %}
 {% assign number_printed = number_printed | plus: 1 %}
 
 <div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
@@ -82,9 +78,10 @@ permalink: /test/
 </ul>
 </div>
 
-{% if current_row_members == members_per_row or forloop.last %}
-{% assign current_row_members = 0 %}
+{% if number_printed == 2 %}
 </div>
+<div class="row">
+{% assign number_printed = 0 %}
 {% endif %}
 
 {% endif %}
