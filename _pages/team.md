@@ -5,6 +5,23 @@ sitemap: false
 permalink: /test/
 ---
 
+<script src="filter.js" defer></script>
+
+<input type="checkbox" id="ap_checkbox" name="position" value="Assistant Professor">
+<label for="ap_checkbox">Assistant Professor</label>
+<input type="checkbox" id="us_checkbox" name="position" value="Undergraduate student">
+<label for="us_checkbox">Undergraduate Student</label>
+<input type="checkbox" id="msr_checkbox" name="position" value="MS(R) student">
+<label for="msr_checkbox">MS(R) Student</label>
+<input type="checkbox" id="phd_checkbox" name="position" value="PhD student">
+<label for="phd_checkbox">PhD Student</label>
+<input type="checkbox" id="ra_checkbox" name="position" value="Research Assistant">
+<label for="ra_checkbox">Research Assistant</label>
+<input type="checkbox" id="int_checkbox" name="position" value="Intern">
+<label for="int_checkbox">Intern</label>
+
+# Group Members  
+
 {% assign ap_members = '' | split: '' %}
 {% assign us_members = '' | split: '' %}
 {% assign msr_members = '' | split: '' %}
@@ -35,19 +52,8 @@ permalink: /test/
 
 {% assign sorted_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: oth_members %}
 
-## Filter
-<form id="filterForm">
-    <label><input type="checkbox" name="position" value="Assistant Professor"> Assistant Professor</label>
-    <label><input type="checkbox" name="position" value="Undergraduate student"> Undergraduate Student</label>
-    <label><input type="checkbox" name="position" value="MS(R) student"> MS(R) Student</label>
-    <label><input type="checkbox" name="position" value="PhD student"> PhD Student</label>
-    <label><input type="checkbox" name="position" value="Research Assistant"> Research Assistant</label>
-    <label><input type="checkbox" name="position" value="Intern"> Intern</label>
-</form>
-
-# Group Members  
-{% for member in sorted_members %}
-    {% capture member_html %}
+<div id="group-members">
+    {% for member in sorted_members %}
         <div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
             <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
             <h4>{{ member.name }}</h4>
@@ -67,21 +73,18 @@ permalink: /test/
                 {% endif %}
             </ul>
         </div>
-    {% endcapture %}
-    {{ member_html }}
-{% endfor %}
+    {% endfor %}
+</div>
 
 ## Alumni
+
 {% for member in sorted_members %}
     {% if member.display == 1 and member.alumni == 1 %}
-        {% capture alumni_html %}
-            <div class="col-sm-12 clearfix">
-                <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
-                <h4>{{ member.name }}</h4>
-                <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
-                <h5>{{ member.alumni_current }}</h5>
-            </div>
-        {% endcapture %}
-        {{ alumni_html }}
+        <div class="col-sm-12 clearfix">
+            <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
+            <h4>{{ member.name }}</h4>
+            <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
+            <h5>{{ member.alumni_current }}</h5>
+        </div>
     {% endif %}
 {% endfor %}
