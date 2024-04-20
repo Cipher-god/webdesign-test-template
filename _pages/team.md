@@ -5,6 +5,24 @@ sitemap: false
 permalink: /test/
 ---
 
+<style>
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .col-sm-6 {
+    width: calc(50% - 10px); /* Adjust as needed */
+    margin-bottom: 20px; /* Adjust as needed */
+  }
+
+  .member {
+    /* Initially show all members */
+    display: block;
+  }
+</style>
+
 <div>
   <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
   <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
@@ -61,7 +79,7 @@ permalink: /test/
 <div class="row">
 {% endif %}
 
-<div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+<div class="col-sm-6 member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
   <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
@@ -101,7 +119,7 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 1 %}
 
-<div class="col-sm-12 clearfix">
+<div class="col-sm-12 clearfix member">
   <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
@@ -112,43 +130,44 @@ permalink: /test/
 {% endfor %}
 
 <script>
-  // Get all checkboxes with class filterCheckbox
-  const checkboxes = document.querySelectorAll('.filterCheckbox');
-  
-  // Add event listener to each checkbox
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      // Get the value of the clicked checkbox
-      const position = this.dataset.position;
-      
-      // Get all members
-      const members = document.querySelectorAll('.member');
-      
-      // Initialize array to store selected positions
-      const selectedPositions = [];
-      
-      // Loop through checkboxes to find selected positions
-      checkboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-          selectedPositions.push(checkbox.dataset.position);
-        }
-      });
-      
-      // If no checkboxes are selected, show all members
-      if (selectedPositions.length === 0) {
-        members.forEach(member => {
-          member.style.display = 'block';
-        });
-      } else {
-        // Show members with selected positions
-        members.forEach(member => {
-          if (selectedPositions.includes(member.dataset.position)) {
-            member.style.display = 'block';
-          } else {
-            member.style.display = 'none';
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.filterCheckbox');
+    const members = document.querySelectorAll('.member');
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        // Initialize array to store selected positions
+        const selectedPositions = [];
+        
+        // Loop through checkboxes to find selected positions
+        checkboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            selectedPositions.push(checkbox.dataset.position);
           }
         });
-      }
+        
+        // If no checkboxes are selected, show all members
+        if (selectedPositions.length === 0) {
+          members.forEach(member => {
+            member.style.display = 'block';
+          });
+        } else {
+          // Show members with selected positions
+          members.forEach(member => {
+            if (selectedPositions.includes(member.dataset.position)) {
+              member.style.display = 'block';
+            } else {
+              member.style.display = 'none';
+            }
+          });
+        }
+        
+        // Update layout to remove empty spaces
+        const visibleMembers = document.querySelectorAll('.member[style="display: block;"]');
+        const numberOfRows = Math.ceil(visibleMembers.length / 2);
+        const rowHeight = numberOfRows * 340 + 'px'; // Adjust as needed
+        document.querySelector('.row').style.height = rowHeight;
+      });
     });
   });
 </script>
