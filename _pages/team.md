@@ -5,6 +5,16 @@ sitemap: false
 permalink: /test/
 ---
 
+<div>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="MS(R) student"> MS(R) Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="PhD student"> PhD Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Research Assistant"> Research Assistant</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Intern"> Intern</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="MSc student"> MSc Student</label>
+</div>
+
 # Group Members  
 
 {% assign ap_members = '' | split: '' %}
@@ -100,16 +110,6 @@ permalink: /test/
 
 {% endif %}
 {% endfor %}
-
-<div>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="MS(R) student"> MS(R) Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="PhD student"> PhD Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Research Assistant"> Research Assistant</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Intern"> Intern</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="MSc student"> MSc Student</label>
-</div>
 
 <script>
   // Get all checkboxes with class filterCheckbox
