@@ -12,31 +12,19 @@ permalink: /test/
     justify-content: flex-start;
     gap: 20px; /* Adjust gap between members */
   }
-
-  .member {
-    display: flex; /* Initially display all members */
-    width: calc(50% - 20px); /* Adjust member width */
-    flex-direction: column; /* Align content vertically */
-  }
-
-  .member h4,
-  .member i,
-  .member ul {
-    margin: 10px 0;
-  }
 </style>
 
 <div>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="MS(R) student"> MS(R) Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="PhD student"> PhD Student</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Research Assistant"> Research Assistant</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="Intern"> Intern</label>
-  <label><input type="checkbox" class="filterCheckbox" data-position="MSc student"> MSc Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="MS(R) student"> MS(R) Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="PhD student"> PhD Student</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Research Assistant"> Research Assistant</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="Intern"> Intern</label>
+  <label><input type="checkbox" class="filterCheckbox" data-position="MSc student"> MSc Student</label>
 </div>
 
-# Group Members  
+# Group Members  
 
 {% assign ap_members = '' | split: '' %}
 {% assign us_members = '' | split: '' %}
@@ -71,82 +59,104 @@ permalink: /test/
 
 {% assign sorted_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: msc_members | concat: oth_members %}
 
-
 {% assign number_printed = 0 %}
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
 
-<div class="member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-  <img src="{{ member.image }}" class="img-responsive" />
-  <h4>{{ member.name }}</h4>
-  <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
-  <ul style="overflow: hidden">
+{% assign even_odd = number_printed | modulo: 2 %}
 
-  {% if member.bio1 != "" %}
-    <li> {{ member.bio1 }} </li>
-  {% endif %}
-  {% if member.bio2 != "" %}
-    <li> {{ member.bio2 }} </li>
-  {% endif %}
-  {% if member.bio3 != "" %}
-    <li> {{ member.bio3 }} </li>
-  {% endif %}
-  {% if member.bio4 != "" %}
-    <li> {{ member.bio4 }} </li>
-  {% endif %}
+{% if even_odd == 0 %}
+<div class="row">
+{% endif %}
 
-  </ul>
+<div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+  <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
+  <h4>{{ member.name }}</h4>
+  <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
+  <ul style="overflow: hidden">
+
+  {% if member.bio1 != "" %}
+    <li> {{ member.bio1 }} </li>
+  {% endif %}
+  {% if member.bio2 != "" %}
+    <li> {{ member.bio2 }} </li>
+  {% endif %}
+  {% if member.bio3 != "" %}
+    <li> {{ member.bio3 }} </li>
+  {% endif %}
+  {% if member.bio4 != "" %}
+    <li> {{ member.bio4 }} </li>
+  {% endif %}
+
+  </ul>
 </div>
 
+{% assign number_printed = number_printed | plus: 1 %}
+
+{% if even_odd == 1 %}
+</div>
+{% endif %}
 {% endif %}
 {% endfor %}
+
+{% assign even_odd = number_printed | modulo: 2 %}
+{% if even_odd == 1 %}
+</div>
+{% endif %}
 
 ## Alumni
 
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 1 %}
 
-<div class="member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-  <img src="{{ member.image }}" class="img-thumbnail" />
-  <h4>{{ member.name }}</h4>
-  <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
-  <h5>{{ member.alumni_current }}</h5>
+<div class="col-sm-12 clearfix">
+  <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
+  <h4>{{ member.name }}</h4>
+  <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
+  <h5>{{ member.alumni_current }}</h5>
 </div>
 
 {% endif %}
 {% endfor %}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const checkboxes = document.querySelectorAll('.filterCheckbox');
-    const members = document.querySelectorAll('.member');
-
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', function () {
-        const selectedPositions = [];
-
-        checkboxes.forEach(checkbox => {
-          if (checkbox.checked) {
-            selectedPositions.push(checkbox.dataset.position);
-          }
-        });
-
-        // If no checkboxes are selected, show all members
-        if (selectedPositions.length === 0) {
-          members.forEach(member => {
-            member.classList.add('show');
-          });
-        } else {
-          // Show members with selected positions
-          members.forEach(member => {
-            if (selectedPositions.includes(member.dataset.position)) {
-              member.classList.add('show');
-            } else {
-              member.classList.remove('show');
-            }
-          });
-        }
-      });
-    });
-  });
+  // Get all checkboxes with class filterCheckbox
+  const checkboxes = document.querySelectorAll('.filterCheckbox');
+  
+  // Add event listener to each checkbox
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      // Get the value of the clicked checkbox
+      const position = this.dataset.position;
+      
+      // Get all members
+      const members = document.querySelectorAll('.member');
+      
+      // Initialize array to store selected positions
+      const selectedPositions = [];
+      
+      // Loop through checkboxes to find selected positions
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          selectedPositions.push(checkbox.dataset.position);
+        }
+      });
+      
+      // If no checkboxes are selected, show all members
+      if (selectedPositions.length === 0) {
+        members.forEach(member => {
+          member.style.display = 'block';
+        });
+      } else {
+        // Show members with selected positions
+        members.forEach(member => {
+          if (selectedPositions.includes(member.dataset.position)) {
+            member.style.display = 'block';
+          } else {
+            member.style.display = 'none';
+          }
+        });
+      }
+    });
+  });
 </script>
