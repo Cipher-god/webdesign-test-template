@@ -51,56 +51,36 @@ permalink: /test/
 {% assign sorted_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: msc_members | concat: oth_members %}
 
 {% assign number_printed = 0 %}
-{% assign displayed_members = 0 %}
-{% for member in sorted_members %}
-{% if member.display == 1 and member.alumni == 0 %}
-
-{% assign even_odd = number_printed | modulo: 3 %}
-
-{% if even_odd == 0 %}
 <div class="row">
-{% endif %}
-
-<div class="col-sm-4 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}" style="display: {% if displayed_members < 3 %}block{% else %}none{% endif %}">
-  <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
-  <h4>{{ member.name }}</h4>
-  <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
-  <ul style="overflow: hidden">
-
-  {% if member.bio1 != "" %}
-    <li> {{ member.bio1 }} </li>
+{% for member in sorted_members %}
+  {% if member.display == 1 and member.alumni == 0 %}
+    <div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+      <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
+      <h4>{{ member.name }}</h4>
+      <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
+      <ul style="overflow: hidden">
+        {% if member.bio1 != "" %}
+          <li> {{ member.bio1 }} </li>
+        {% endif %}
+        {% if member.bio2 != "" %}
+          <li> {{ member.bio2 }} </li>
+        {% endif %}
+        {% if member.bio3 != "" %}
+          <li> {{ member.bio3 }} </li>
+        {% endif %}
+        {% if member.bio4 != "" %}
+          <li> {{ member.bio4 }} </li>
+        {% endif %}
+      </ul>
+    </div>
+    {% assign number_printed = number_printed | plus: 1 %}
+    {% if number_printed == 2 %}
+      </div><div class="row">
+      {% assign number_printed = 0 %}
+    {% endif %}
   {% endif %}
-  {% if member.bio2 != "" %}
-    <li> {{ member.bio2 }} </li>
-  {% endif %}
-  {% if member.bio3 != "" %}
-    <li> {{ member.bio3 }} </li>
-  {% endif %}
-  {% if member.bio4 != "" %}
-    <li> {{ member.bio4 }} </li>
-  {% endif %}
-
-  </ul>
-</div>
-
-{% assign number_printed = number_printed | plus: 1 %}
-{% assign displayed_members = displayed_members | plus: 1 %}
-
-{% if even_odd == 2 %}
-</div>
-{% endif %}
-
-{% if displayed_members == 3 %}
-{% assign displayed_members = 0 %}
-{% endif %}
-
-{% endif %}
 {% endfor %}
-
-{% assign even_odd = number_printed | modulo: 3 %}
-{% if even_odd != 0 %}
 </div>
-{% endif %}
 
 ## Alumni
 
