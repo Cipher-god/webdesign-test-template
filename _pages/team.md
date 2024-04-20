@@ -144,6 +144,24 @@ function updateMemberDisplay() {
             }
         });
     }
+
+    // Clean up existing rows
+    const existingRows = document.querySelectorAll('.row');
+    existingRows.forEach(row => row.remove());
+    
+    // Adjust the row structure based on the visible members
+    const visibleMembers = document.querySelectorAll('.member[style="display: block;"]');
+    let row = document.createElement('div');
+    row.className = 'row';
+    visibleMembers.forEach((member, index) => {
+        if (index % 2 === 0) {
+            // Start a new row for every two members
+            row = document.createElement('div');
+            row.className = 'row';
+            member.parentNode.insertBefore(row, member);
+        }
+        row.appendChild(member);
+    });
 }
 
 // Add event listener to each checkbox
