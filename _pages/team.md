@@ -58,7 +58,7 @@ permalink: /test/
 {% if even_odd == 0 %}
 <div class="row">
 {% endif %}
-<div class="col-sm-6 clearfix">
+<div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
   <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
@@ -100,3 +100,35 @@ permalink: /test/
 </div>
 {% endif %}
 {% endfor %}
+
+<!-- Add JavaScript for filtering -->
+<script>
+  // Get all checkboxes with class filterCheckbox
+  const checkboxes = document.querySelectorAll('.filterCheckbox');
+  
+  // Add event listener to each checkbox
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      // Get the value of the clicked checkbox
+      const position = this.dataset.position;
+      
+      // Get all members
+      const members = document.querySelectorAll('.member');
+      
+      // If checkbox is checked
+      if (this.checked) {
+        // Show only members with the selected position
+        members.forEach(member => {
+          if (member.dataset.position === position) {
+            member.style.display = 'block';
+          }
+        });
+      } else {
+        // If checkbox is unchecked, show all members
+        members.forEach(member => {
+          member.style.display = 'block';
+        });
+      }
+    });
+  });
+</script>
