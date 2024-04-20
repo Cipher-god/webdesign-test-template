@@ -5,24 +5,6 @@ sitemap: false
 permalink: /test/
 ---
 
-<style>
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .col-sm-6 {
-    width: calc(50% - 10px); /* Adjust as needed */
-    margin-bottom: 20px; /* Adjust as needed */
-  }
-
-  .member {
-    /* Initially show all members */
-    display: block;
-  }
-</style>
-
 <div>
   <label><input type="checkbox" class="filterCheckbox" data-position="Assistant Professor"> Assistant Professor</label>
   <label><input type="checkbox" class="filterCheckbox" data-position="Undergraduate student"> Undergraduate Student</label>
@@ -32,6 +14,24 @@ permalink: /test/
   <label><input type="checkbox" class="filterCheckbox" data-position="Intern"> Intern</label>
   <label><input type="checkbox" class="filterCheckbox" data-position="MSc student"> MSc Student</label>
 </div>
+
+<style>
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Adjust to change alignment */
+    gap: 20px; /* Adjust gap between members */
+  }
+
+  .col-sm-6 {
+    width: calc(50% - 10px); /* Adjust width of members */
+    margin-bottom: 20px; /* Adjust bottom margin */
+  }
+
+  .member {
+    display: block;
+  }
+</style>
 
 # Group Members  
 
@@ -119,12 +119,13 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 1 %}
 
-<div class="col-sm-12 clearfix member">
+<div class="col-sm-12 member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
   <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
   <h5>{{ member.alumni_current }}</h5>
 </div>
+
 
 {% endif %}
 {% endfor %}
