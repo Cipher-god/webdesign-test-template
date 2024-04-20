@@ -17,17 +17,19 @@ permalink: /test/
 
 <style>
   .row {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust grid column width */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 20px; /* Adjust gap between members */
   }
 
   .member {
     display: none; /* Initially hide all members */
+    width: calc(50% - 20px); /* Adjust member width */
   }
 
   .member.show {
-    display: block; /* Show selected members */
+    display: flex; /* Show selected members */
   }
 </style>
 
@@ -71,7 +73,7 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
 
-<div class="col-sm-6 member show" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+<div class="member show" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
   <img src="{{ member.image }}" class="img-responsive" width="100%" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
@@ -101,7 +103,7 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 1 %}
 
-<div class="col-sm-12 member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+<div class="member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
   <img src="{{ member.image }}" class="img-thumbnail" width="100%" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
