@@ -55,13 +55,13 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
 
-{% assign even_odd = number_printed | modulo: 2 %}
+{% assign even_odd = number_printed | modulo: 3 %}
 
 {% if even_odd == 0 %}
 <div class="row">
 {% endif %}
 
-<div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}" style="display: {% if displayed_members < 2 %}block{% else %}none{% endif %}">
+<div class="col-sm-4 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}" style="display: {% if displayed_members < 3 %}block{% else %}none{% endif %}">
   <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
@@ -86,19 +86,19 @@ permalink: /test/
 {% assign number_printed = number_printed | plus: 1 %}
 {% assign displayed_members = displayed_members | plus: 1 %}
 
-{% if even_odd == 1 %}
+{% if even_odd == 2 %}
 </div>
 {% endif %}
 
-{% if displayed_members == 2 %}
+{% if displayed_members == 3 %}
 {% assign displayed_members = 0 %}
 {% endif %}
 
 {% endif %}
 {% endfor %}
 
-{% assign even_odd = number_printed | modulo: 2 %}
-{% if even_odd == 1 %}
+{% assign even_odd = number_printed | modulo: 3 %}
+{% if even_odd != 0 %}
 </div>
 {% endif %}
 
