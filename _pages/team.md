@@ -17,19 +17,17 @@ permalink: /test/
 
 <style>
   .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* Adjust to change alignment */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust grid column width */
     gap: 20px; /* Adjust gap between members */
   }
 
-  .col-sm-6 {
-    width: calc(50% - 10px); /* Adjust width of members */
-    margin-bottom: 20px; /* Adjust bottom margin */
+  .member {
+    display: none; /* Initially hide all members */
   }
 
-  .member {
-    display: block;
+  .member.show {
+    display: block; /* Show selected members */
   }
 </style>
 
@@ -73,14 +71,8 @@ permalink: /test/
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
 
-{% assign even_odd = number_printed | modulo: 2 %}
-
-{% if even_odd == 0 %}
-<div class="row">
-{% endif %}
-
-<div class="col-sm-6 member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-  <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
+<div class="col-sm-6 member show" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
+  <img src="{{ member.image }}" class="img-responsive" width="100%" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} <br>email: {{ member.email }}</i>
   <ul style="overflow: hidden">
@@ -101,18 +93,8 @@ permalink: /test/
   </ul>
 </div>
 
-{% assign number_printed = number_printed | plus: 1 %}
-
-{% if even_odd == 1 %}
-</div>
-{% endif %}
 {% endif %}
 {% endfor %}
-
-{% assign even_odd = number_printed | modulo: 2 %}
-{% if even_odd == 1 %}
-</div>
-{% endif %}
 
 ## Alumni
 
@@ -120,12 +102,11 @@ permalink: /test/
 {% if member.display == 1 and member.alumni == 1 %}
 
 <div class="col-sm-12 member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
-  <img src="{{ member.image }}" class="img-thumbnail" width="100px" style="float: left" />
+  <img src="{{ member.image }}" class="img-thumbnail" width="100%" />
   <h4>{{ member.name }}</h4>
   <i>{{ member.position }}, {{ member.affiliation }} ({{ member.year }}) <br>email: {{ member.email }}</i>
   <h5>{{ member.alumni_current }}</h5>
 </div>
-
 
 {% endif %}
 {% endfor %}
@@ -150,24 +131,18 @@ permalink: /test/
         // If no checkboxes are selected, show all members
         if (selectedPositions.length === 0) {
           members.forEach(member => {
-            member.style.display = 'block';
+            member.classList.add('show');
           });
         } else {
           // Show members with selected positions
           members.forEach(member => {
             if (selectedPositions.includes(member.dataset.position)) {
-              member.style.display = 'block';
+              member.classList.add('show');
             } else {
-              member.style.display = 'none';
+              member.classList.remove('show');
             }
           });
         }
-        
-        // Update layout to remove empty spaces
-        const visibleMembers = document.querySelectorAll('.member[style="display: block;"]');
-        const numberOfRows = Math.ceil(visibleMembers.length / 2);
-        const rowHeight = numberOfRows * 340 + 'px'; // Adjust as needed
-        document.querySelector('.row').style.height = rowHeight;
       });
     });
   });
