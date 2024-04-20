@@ -53,12 +53,14 @@ permalink: /test/
 {% assign number_printed = 0 %}
 {% assign members_per_row = 2 %}
 {% assign current_row_members = 0 %}
+{% assign rows_count = 0 %}
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
+{% assign current_row_members = current_row_members | plus: 1 %}
+{% assign number_printed = number_printed | plus: 1 %}
 
-{% assign even_odd = current_row_members | modulo: members_per_row %}
-
-{% if even_odd == 0 %}
+{% if current_row_members == 1 %}
+{% assign rows_count = rows_count | plus: 1 %}
 <div class="row">
 {% endif %}
 
@@ -84,15 +86,18 @@ permalink: /test/
 </ul>
 </div>
 
-{% assign current_row_members = current_row_members | plus: 1 %}
-{% assign number_printed = number_printed | plus: 1 %}
-
-{% if even_odd == 1 or forloop.last %}
+{% if current_row_members == members_per_row or forloop.last %}
+{% assign current_row_members = 0 %}
 </div>
 {% endif %}
 
 {% endif %}
 {% endfor %}
+
+{% assign even_odd = rows_count | modulo: 2 %}
+{% if even_odd == 1 %}
+</div>
+{% endif %}
 
 ## Alumni
 
