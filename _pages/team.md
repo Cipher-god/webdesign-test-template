@@ -54,15 +54,11 @@ permalink: /test/
 {% assign members_per_row = 2 %}
 {% assign current_row_members = 0 %}
 {% assign rows_count = 0 %}
+<div class="row">
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
 {% assign current_row_members = current_row_members | plus: 1 %}
 {% assign number_printed = number_printed | plus: 1 %}
-
-{% if current_row_members == 1 %}
-{% assign rows_count = rows_count | plus: 1 %}
-<div class="row">
-{% endif %}
 
 <div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
 <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
@@ -93,11 +89,7 @@ permalink: /test/
 
 {% endif %}
 {% endfor %}
-
-{% assign even_odd = rows_count | modulo: 2 %}
-{% if even_odd == 1 %}
 </div>
-{% endif %}
 
 ## Alumni
 
