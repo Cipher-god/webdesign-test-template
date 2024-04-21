@@ -51,7 +51,6 @@ permalink: /test/
 {% assign sorted_members = '' | split: '' | concat: ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: msc_members | concat: oth_members %}
 
 {% assign number_printed = 0 %}
-<div class="row">
 {% for member in sorted_members %}
 {% if member.display == 1 and member.alumni == 0 %}
 
@@ -85,14 +84,11 @@ permalink: /test/
 
 {% assign number_printed = number_printed | plus: 1 %}
 
-{% if even_odd == 1 %}
+{% if even_odd == 1 or forloop.last %}
 </div>
 {% endif %}
 {% endif %}
 {% endfor %}
-{% if number_printed | modulo: 2 == 1 %}
-</div>
-{% endif %}
 
 ## Alumni
 
