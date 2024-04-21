@@ -56,6 +56,9 @@ permalink: /test/
   {% if member.display == 1 and member.alumni == 0 %}
     {% assign number_printed = number_printed | plus: 1 %}
     {% if number_printed | modulo: 2 == 1 %}
+      {% if number_printed > 1 %}
+        </div>
+      {% endif %}
       <div class="row">
     {% endif %}
     <div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
@@ -77,12 +80,12 @@ permalink: /test/
         {% endif %}
       </ul>
     </div>
-    {% if number_printed | modulo: 2 == 0 %}
-      </div>
-    {% endif %}
   {% endif %}
 {% endfor %}
 {% if number_printed | modulo: 2 == 1 %}
+  </div>
+{% endif %}
+{% if number_printed > 0 %}
   </div>
 {% endif %}
 
