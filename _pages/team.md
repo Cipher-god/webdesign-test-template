@@ -6,14 +6,14 @@ permalink: /test/
 ---
 
 <style>
-/* Add CSS styles here */
-.member {
-  float: none;
-  display: inline-block;
+/* CSS styles */
+.row {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.row {
-  overflow: hidden;
+.member {
+  width: 50%; /* Display two members per row */
 }
 </style>
 
