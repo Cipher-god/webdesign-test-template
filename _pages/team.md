@@ -51,11 +51,11 @@ permalink: /test/
 {% assign sorted_members = ap_members | concat: phd_members | concat: msr_members | concat: ra_members | concat: us_members | concat: int_members | concat: msc_members | concat: oth_members %}
 
 {% assign number_printed = 0 %}
+<div class="row">
 {% for member in sorted_members %}
   {% if member.display == 1 and member.alumni == 0 %}
-    {% if number_printed == 0 %}
-      <div class="row">
-    {% endif %}
+    {% assign number_printed = number_printed | plus: 1 %}
+
     <div class="col-sm-6 clearfix member" data-position="{{ member.position }}" data-alumni="{{ member.alumni }}">
       <img src="{{ member.image }}" class="img-responsive" width="35%" style="float: left" />
       <h4>{{ member.name }}</h4>
@@ -75,17 +75,16 @@ permalink: /test/
         {% endif %}
       </ul>
     </div>
-    {% assign number_printed = number_printed | plus: 1 %}
+
     {% if number_printed == 2 %}
       </div>
+      <div class="row">
       {% assign number_printed = 0 %}
     {% endif %}
+
   {% endif %}
 {% endfor %}
-
-{% if number_printed == 1 %}
-  </div>
-{% endif %}
+</div>
 
 ## Alumni
 
@@ -101,43 +100,43 @@ permalink: /test/
 {% endfor %}
 
 <script>
-  // Get all checkboxes with class filterCheckbox
-  const checkboxes = document.querySelectorAll('.filterCheckbox');
-  
-  // Add event listener to each checkbox
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      // Get the value of the clicked checkbox
-      const position = this.dataset.position;
-      
-      // Get all members
-      const members = document.querySelectorAll('.member');
-      
-      // Initialize array to store selected positions
-      const selectedPositions = [];
-      
-      // Loop through checkboxes to find selected positions
-      checkboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-          selectedPositions.push(checkbox.dataset.position);
-        }
-      });
-      
-      // If no checkboxes are selected, show all members
-      if (selectedPositions.length === 0) {
-        members.forEach(member => {
-          member.style.display = 'block';
-        });
-      } else {
-        // Show members with selected positions
-        members.forEach(member => {
-          if (selectedPositions.includes(member.dataset.position)) {
-            member.style.display = 'block';
-          } else {
-            member.style.display = 'none';
-          }
-        });
+// Get all checkboxes with class filterCheckbox
+const checkboxes = document.querySelectorAll('.filterCheckbox');
+
+// Add event listener to each checkbox
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener('change', function() {
+    // Get the value of the clicked checkbox
+    const position = this.dataset.position;
+    
+    // Get all members
+    const members = document.querySelectorAll('.member');
+    
+    // Initialize array to store selected positions
+    const selectedPositions = [];
+    
+    // Loop through checkboxes to find selected positions
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        selectedPositions.push(checkbox.dataset.position);
       }
     });
+    
+    // If no checkboxes are selected, show all members
+    if (selectedPositions.length === 0) {
+      members.forEach(member => {
+        member.style.display = 'block';
+      });
+    } else {
+      // Show members with selected positions
+      members.forEach(member => {
+        if (selectedPositions.includes(member.dataset.position)) {
+          member.style.display = 'block';
+        } else {
+          member.style.display = 'none';
+        }
+      });
+    }
   });
+});
 </script>
