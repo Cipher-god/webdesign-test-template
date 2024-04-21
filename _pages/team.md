@@ -76,15 +76,15 @@ permalink: /test/
       </ul>
     </div>
 
-    {% if number_printed == 2 %}
-      </div>
-      <div class="row">
-      {% assign number_printed = 0 %}
+    {% if number_printed | modulo: 2 == 0 %}
+      </div><div class="row">
     {% endif %}
 
   {% endif %}
 {% endfor %}
-</div>
+{% if number_printed | modulo: 2 != 0 %}
+  </div>
+{% endif %}
 
 ## Alumni
 
